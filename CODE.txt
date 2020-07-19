@@ -12,7 +12,7 @@ awk '!x[$NF]++' file
 # Delete empty rows
 sed 's/^$/d' file
 
-# Change fstaq to fasta uisng AWK and SED
+# Change fastq to fasta uisng AWK and SED
 awk 'NR % 4 = 1 || NR % 4 = 2' fastq.file | sed -e 's/@/>/' > fasta.file
 
 # Extract reads which are mapped onto different scaffolds
