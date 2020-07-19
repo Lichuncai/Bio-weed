@@ -1,0 +1,19 @@
+# Useful code for data processing 
+
+# Compare two files, for example, extract the shared data or unique data
+awk 'NR == FNR {a[$0]} NR != FNR {if($0 in a) print $0}' file1 file2
+awk 'NR == FNR {a[$0]} NR != FNR {if(!($0 in a)) print $0}' file1 file2
+
+# Delete repetitive rows without sorting
+awk '!x[$0]++' file
+awk '!x[$1]++' file
+awk '!x[$NF]++' file
+
+# Delete empty rows
+sed 's/^$/d' file
+
+# Change fstaq to fasta uisng AWK and SED
+awk 'NR % 4 = 1 || NR % 4 = 2' fastq.file | sed -e 's/@/>/' > fasta.file
+
+# Extract reads which are mapped onto different scaffolds
+samtools view bam.file | perl -alne '{print if $F[6] ne "="}'
