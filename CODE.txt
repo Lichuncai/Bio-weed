@@ -17,3 +17,6 @@ awk 'NR % 4 = 1 || NR % 4 = 2' fastq.file | sed -e 's/@/>/' > fasta.file
 
 # Extract reads which are mapped onto different scaffolds
 samtools view bam.file | perl -alne '{print if $F[6] ne "="}'
+
+# format fasta to singe line
+awk '{printf />/ ? "\n"$0"\t":$0}' file.fasta
