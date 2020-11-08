@@ -12,6 +12,9 @@ awk '!x[$NF]++' file
 # Delete empty rows
 sed 's/^$/d' file
 
+# print special rows
+sed -n '2~4p' file.fq
+
 # Change fastq to fasta uisng AWK and SED
 awk 'NR % 4 = 1 || NR % 4 = 2' fastq.file | sed -e 's/@/>/' > fasta.file
 
