@@ -26,3 +26,6 @@ tail -n +2 file
 
 # xargs
 ls *.fastq.gz | xargs -I [] echo 'fastqc []' > fastqc.sh
+
+# single line fasta
+perl -pe '/^>/' ? print "\n" : chomp' in.fasta | tail -n +2 > out.fasta
