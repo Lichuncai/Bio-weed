@@ -29,3 +29,6 @@ ls *.fastq.gz | xargs -I [] echo 'fastqc []' > fastqc.sh
 
 # single line fasta
 perl -pe '/^>/' ? print "\n" : chomp' in.fasta | tail -n +2 > out.fasta
+
+# find and delete
+find . -name "bowtie.bam.ok" -exec rm -f {} \;
