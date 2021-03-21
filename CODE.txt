@@ -1,4 +1,26 @@
-# Useful code for data processing 
+### Useful code in Notebook ###
+
+# loop
+while read id; do touch ${id}.txt
+for i in 1:10; do touch ${i}.txt; done
+
+# AWK do convert fastQ to fastA
+awk 'NR % 4 = 1 || NR % 4 = 2' file.fastq | sed -e 's/@/>/' > file.fasta
+
+# AWK do change differnt lines
+awk '/^>/ {print $0} /^[^>]/ {print(toupper($0))}' file.fasta 
+
+# AWK do change header of fasta file
+awk '/^>/ {print ">"++i; next} {print}' file.fasta
+
+# AWK do change dot or star sign
+awk '/^>/ {print $0} /^[^>]/ {gsub(/\./,"",$0);print $0}' file.fasta
+
+# AWK do match and replace
+awk '{if($1 ~ "ABC") gsub(/ab/,"AB",$2); print $0}' file.txt
+
+# AWK do sum
+awk 'BEGIN{sum=0} {sum+=$1} END{print sum}' file
 
 # Compare two files, for example, extract the shared data or unique data
 awk 'NR == FNR {a[$0]} NR != FNR {if($0 in a) print $0}' file1 file2
@@ -9,14 +31,17 @@ awk '!x[$0]++' file
 awk '!x[$1]++' file
 awk '!x[$NF]++' file
 
-# Delete empty rows
-sed 's/^$/d' file
+# SED series
 
-# Change fastq to fasta uisng AWK and SED
-awk 'NR % 4 = 1 || NR % 4 = 2' fastq.file | sed -e 's/@/>/' > fasta.file
+sed 's/^$/d' file
+sed '1,2d' file
+sed -e '/abc/d' file
 
 # Extract reads which are mapped onto different scaffolds
 samtools view bam.file | perl -alne '{print if $F[6] ne "="}'
+
+# single line fasta
+perl -pe '/^>/' ? print "\n" : chomp' in.fasta | tail -n +2 > out.fasta
 
 # format fasta to singe line
 awk '{printf />/ ? "\n"$0"\t":$0}' file.fasta
@@ -27,8 +52,16 @@ tail -n +2 file
 # xargs
 ls *.fastq.gz | xargs -I [] echo 'fastqc []' > fastqc.sh
 
-# single line fasta
-perl -pe '/^>/' ? print "\n" : chomp' in.fasta | tail -n +2 > out.fasta
-
 # find and delete
 find . -name "bowtie.bam.ok" -exec rm -f {} \;
+find . -name "*.txt" | xargs -n 1 echo "rm -i" > file.sh
+
+$ check TAB
+cat -te file.txt
+
+
+
+
+
+
+
