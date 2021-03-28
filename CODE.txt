@@ -1,5 +1,8 @@
 ### Useful code in Notebook ###
 
+# list all current folder names
+ls -d */
+
 # loop
 while read id; do touch ${id}.txt
 for i in 1:10; do touch ${i}.txt; done
